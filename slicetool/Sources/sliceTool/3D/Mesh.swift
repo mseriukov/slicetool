@@ -2,8 +2,8 @@ import Foundation
 import simd
 
 struct BoundingBox {
-    var bottomLeftRear: float3 = float3(0)
-    var topRightFront: float3 = float3(0)
+    var bottomLeftRear: float3 = float3(repeating: 0)
+    var topRightFront: float3 = float3(repeating: 0)
 }
 
 class Mesh {

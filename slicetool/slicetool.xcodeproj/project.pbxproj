@@ -15,9 +15,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		982A550D22FC17A500BED3B3 /* Mesh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mesh.swift; path = Sources/sliceTool/Mesh.swift; sourceTree = SOURCE_ROOT; };
-		982A550E22FC17A900BED3B3 /* STLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = STLParser.swift; path = Sources/sliceTool/STLParser.swift; sourceTree = SOURCE_ROOT; };
-		982A550F22FC17AA00BED3B3 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Math.swift; path = Sources/sliceTool/Math.swift; sourceTree = SOURCE_ROOT; };
+		982A550D22FC17A500BED3B3 /* Mesh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mesh.swift; path = Sources/slicetool/3D/Mesh.swift; sourceTree = SOURCE_ROOT; };
+		982A550E22FC17A900BED3B3 /* STLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = STLParser.swift; path = Sources/slicetool/3D/STLParser.swift; sourceTree = SOURCE_ROOT; };
+		982A550F22FC17AA00BED3B3 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Math.swift; path = Sources/slicetool/Math/Math.swift; sourceTree = SOURCE_ROOT; };
 		OBJ_13 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		OBJ_9 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -35,6 +35,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		982A551322FC24E800BED3B3 /* Math */ = {
+			isa = PBXGroup;
+			children = (
+				982A550F22FC17AA00BED3B3 /* Math.swift */,
+			);
+			path = Math;
+			sourceTree = "<group>";
+		};
+		982A551422FC24FE00BED3B3 /* 3D */ = {
+			isa = PBXGroup;
+			children = (
+				982A550D22FC17A500BED3B3 /* Mesh.swift */,
+				982A550E22FC17A900BED3B3 /* STLParser.swift */,
+			);
+			path = 3D;
+			sourceTree = "<group>";
+		};
 		OBJ_10 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -50,7 +67,7 @@
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -59,7 +76,6 @@
 				OBJ_11 /* Products */,
 				OBJ_13 /* README.md */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Sources */ = {
@@ -73,9 +89,8 @@
 		OBJ_8 /* slicetool */ = {
 			isa = PBXGroup;
 			children = (
-				982A550F22FC17AA00BED3B3 /* Math.swift */,
-				982A550D22FC17A500BED3B3 /* Mesh.swift */,
-				982A550E22FC17A900BED3B3 /* STLParser.swift */,
+				982A551422FC24FE00BED3B3 /* 3D */,
+				982A551322FC24E800BED3B3 /* Math */,
 				OBJ_9 /* main.swift */,
 			);
 			name = slicetool;
@@ -132,7 +147,7 @@
 				English,
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_11 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

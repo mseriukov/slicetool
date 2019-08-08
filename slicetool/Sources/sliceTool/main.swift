@@ -207,8 +207,8 @@ func writeLinesToGcode(_ polygons: [[float2]], gmin: float2, gmax: float2, z: Fl
         }
     }
 
-    let w = gmax[0] - gmin[0]+50*2
-    let h = gmax[1] - gmin[1]+50*2
+//    let w = gmax[0] - gmin[0]+50*2
+//    let h = gmax[1] - gmin[1]+50*2
 
     string.append("G90 G21\n")
     string.append("M3\n")
@@ -247,17 +247,12 @@ let sliceURL = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("s
 try? FileManager.default.createDirectory(at: sliceURL, withIntermediateDirectories: true, attributes: [:])
 
 for z in stride(from: 0, to: height, by: 2) {
-
-    var lines = slice(mesh: mesh, z: Float(z))
+    let lines = slice(mesh: mesh, z: Float(z))
     let polygons = linesToPolygons(lines)
 
     let gmax = float2(mesh.boundingBox.topRightFront[0], mesh.boundingBox.topRightFront[1])
     let gmin = float2(mesh.boundingBox.bottomLeftRear[0], mesh.boundingBox.bottomLeftRear[1])
 
-    let w = gmax[0] - gmin[0]+50*2
-    let h = gmax[1] - gmin[1]+50*2
-
     writeLinesToSvg(polygons, gmin: gmin, gmax: gmax, z: z, sliceURL: sliceURL)
-    //polygonsToImage(size: CGSize(width: Double(w), height: Double(h)), gmin: gmin, gmax: gmax, polygons: polygons, z: z, sliceURL: sliceURL)
     //writeLinesToGcode(polygons, gmin: gmin, gmax: gmax, z: z, sliceURL: sliceURL)
 }

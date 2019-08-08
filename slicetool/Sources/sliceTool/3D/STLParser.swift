@@ -30,7 +30,7 @@ class STLParser {
         guard countLen == 4 else { return [] }
 
         let cntData = Data([countBuf[3], countBuf[2], countBuf[1], countBuf[0]])
-        let cnt = cntData.withUnsafeBytes { $0.load(as: UInt32.self) }.bigEndian
+        let _ = cntData.withUnsafeBytes { $0.load(as: UInt32.self) }.bigEndian
 
         var result: [Vertex] = []
         var buf: [UInt8] = [UInt8](repeating: 0, count: 12*4+2)
@@ -77,7 +77,7 @@ class STLParser {
             result.append(Vertex(position: v3*scale, normal: n))
 
             let attrData = Data([buf[offset+0], buf[offset+1]])
-            let a = attrData.withUnsafeBytes { $0.load(as: UInt16.self) }.bigEndian
+            let _ = attrData.withUnsafeBytes { $0.load(as: UInt16.self) }.bigEndian
         }
         return result
     }
