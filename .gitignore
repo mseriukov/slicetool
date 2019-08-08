@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# SPM build
+.build/
+
 # C extensions
 *.so
 

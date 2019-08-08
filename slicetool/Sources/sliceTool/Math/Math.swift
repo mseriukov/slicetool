@@ -1,4 +1,5 @@
 import simd
+import SPMUtility
 
 extension Double {
     func precised(_ value: Int = 1) -> Double {
