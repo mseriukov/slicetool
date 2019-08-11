@@ -1,9 +1,8 @@
 import Foundation
-import simd
 
 struct BoundingBox {
-    var bottomLeftRear: float3 = float3(repeating: 0)
-    var topRightFront: float3 = float3(repeating: 0)
+    var bottomLeftRear: Vec3 = Vec3(value: 0)
+    var topRightFront: Vec3 = Vec3(value: 0)
 }
 
 class Mesh {
@@ -16,28 +15,28 @@ class Mesh {
             boundingBox.bottomLeftRear = vertex.position
             boundingBox.topRightFront = vertex.position
         } else {
-            if vertex.position[0] < boundingBox.bottomLeftRear[0] {
-                boundingBox.bottomLeftRear[0] = vertex.position[0]
+            if vertex.position.x < boundingBox.bottomLeftRear.x {
+                boundingBox.bottomLeftRear.x = vertex.position.x
             }
 
-            if vertex.position[1] < boundingBox.bottomLeftRear[1] {
-                boundingBox.bottomLeftRear[1] = vertex.position[1]
+            if vertex.position.y < boundingBox.bottomLeftRear.y {
+                boundingBox.bottomLeftRear.y = vertex.position.y
             }
 
-            if vertex.position[2] < boundingBox.bottomLeftRear[2] {
-                boundingBox.bottomLeftRear[2] = vertex.position[2]
+            if vertex.position.z < boundingBox.bottomLeftRear.z {
+                boundingBox.bottomLeftRear.z = vertex.position.z
             }
 
-            if vertex.position[0] > boundingBox.topRightFront[0] {
-                boundingBox.topRightFront[0] = vertex.position[0]
+            if vertex.position.x > boundingBox.topRightFront.x {
+                boundingBox.topRightFront.x = vertex.position.x
             }
 
-            if vertex.position[1] > boundingBox.topRightFront[1] {
-                boundingBox.topRightFront[1] = vertex.position[1]
+            if vertex.position.y > boundingBox.topRightFront.y {
+                boundingBox.topRightFront.y = vertex.position.y
             }
 
-            if vertex.position[2] > boundingBox.topRightFront[2] {
-                boundingBox.topRightFront[2] = vertex.position[2]
+            if vertex.position.z > boundingBox.topRightFront.z {
+                boundingBox.topRightFront.z = vertex.position.z
             }
         }
     }

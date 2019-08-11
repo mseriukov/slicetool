@@ -10,6 +10,7 @@ let package = Package(
     targets: [
         .target(
             name: "slicetool",
-            dependencies: ["SPMUtility"]),
+            dependencies: ["SPMUtility"],
+            path: "Sources")
     ]
 )

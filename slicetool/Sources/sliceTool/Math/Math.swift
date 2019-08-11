@@ -1,28 +1,12 @@
-import simd
-import SPMUtility
+import Foundation
 
-extension Double {
-    func precised(_ value: Int = 1) -> Double {
-        let offset = pow(10, Double(value))
-        return (self * offset).rounded() / offset
-    }
-
-    static func equal(_ lhs: Double, _ rhs: Double, precise value: Int? = nil) -> Bool {
-        guard let value = value else {
-            return lhs == rhs
-        }
-
-        return lhs.precised(value) == rhs.precised(value)
-    }
-}
-
-extension Float {
+extension Float32 {
     func precised(_ value: Int = 1) -> Float {
         let offset = pow(10, Float(value))
         return (self * offset).rounded() / offset
     }
 
-    static func equal(_ lhs: Float, _ rhs: Float, precise value: Int? = nil) -> Bool {
+    static func equal(_ lhs: Float32, _ rhs: Float32, precise value: Int? = nil) -> Bool {
         guard let value = value else {
             return lhs == rhs
         }
@@ -31,33 +15,33 @@ extension Float {
     }
 }
 
-func isSamePoint(_ p1: float2, _ p2: float2) -> Bool {
-    return Float.equal(p1.x, p2.x, precise: 6) && Float.equal(p1.y, p2.y, precise: 6)
+func isSamePoint(_ p1: Vec2, _ p2: Vec2) -> Bool {
+    return Float32.equal(p1.x, p2.x, precise: 6) && Float32.equal(p1.y, p2.y, precise: 6)
 }
 
 
 struct Plane {
-    var p: float3
-    var n: float3
+    var p: Vec3
+    var n: Vec3
 
-    func distanceToPoint(_ p: float3) -> Float {
-        return abs(dot(n, p - self.p))
+    func distanceToPoint(_ p: Vec3) -> Float {
+        return abs(n.dot(p - self.p))
     }
 
-    func intersectLine(_ line: Line) -> float3? {
+    func intersectLine(_ line: Line) -> Vec3? {
         let u = line.p1 - line.p0
-        let dt = dot(n, u)
+        let dt = n.dot(u)
         if Float.equal(abs(dt), 0, precise: 6) {
             return nil
         } else {
             let w = self.p - line.p0
-            return line.p0 + u * dot(n, w) / dt
+            return line.p0 + u * n.dot(w) / dt
         }
     }
 }
 
 
 struct Line {
-    var p0: float3
-    var p1: float3
+    var p0: Vec3
+    var p1: Vec3
 }

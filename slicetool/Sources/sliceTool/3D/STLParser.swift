@@ -1,9 +1,8 @@
 import Foundation
-import simd
 
 struct Vertex {
-    var position: float3
-    var normal: float3
+    var position: Vec3
+    var normal: Vec3
 }
 
 class STLParser {
@@ -42,32 +41,32 @@ class STLParser {
             }
 
             var offset: Int = 0
-            let n = float3([
-                floatValue(data: Data([buf[offset+3], buf[offset+2], buf[offset+1], buf[offset+0]])),
-                floatValue(data: Data([buf[offset+7], buf[offset+6], buf[offset+5], buf[offset+4]])),
-                floatValue(data: Data([buf[offset+11], buf[offset+10], buf[offset+9], buf[offset+8]]))
-            ])
+            let n = Vec3(
+                x: floatValue(data: Data([buf[offset+3], buf[offset+2], buf[offset+1], buf[offset+0]])),
+                y: floatValue(data: Data([buf[offset+7], buf[offset+6], buf[offset+5], buf[offset+4]])),
+                z: floatValue(data: Data([buf[offset+11], buf[offset+10], buf[offset+9], buf[offset+8]]))
+            )
             offset += 12
 
-            let v1 = float3([
-                floatValue(data: Data([buf[offset+3], buf[offset+2], buf[offset+1], buf[offset+0]])),
-                floatValue(data: Data([buf[offset+7], buf[offset+6], buf[offset+5], buf[offset+4]])),
-                floatValue(data: Data([buf[offset+11], buf[offset+10], buf[offset+9], buf[offset+8]]))
-            ])
+            let v1 = Vec3(
+                x: floatValue(data: Data([buf[offset+3], buf[offset+2], buf[offset+1], buf[offset+0]])),
+                y: floatValue(data: Data([buf[offset+7], buf[offset+6], buf[offset+5], buf[offset+4]])),
+                z: floatValue(data: Data([buf[offset+11], buf[offset+10], buf[offset+9], buf[offset+8]]))
+            )
             offset += 12
 
-            let v2 = float3([
-                floatValue(data: Data([buf[offset+3], buf[offset+2], buf[offset+1], buf[offset+0]])),
-                floatValue(data: Data([buf[offset+7], buf[offset+6], buf[offset+5], buf[offset+4]])),
-                floatValue(data: Data([buf[offset+11], buf[offset+10], buf[offset+9], buf[offset+8]]))
-            ])
+            let v2 = Vec3(
+                x: floatValue(data: Data([buf[offset+3], buf[offset+2], buf[offset+1], buf[offset+0]])),
+                y: floatValue(data: Data([buf[offset+7], buf[offset+6], buf[offset+5], buf[offset+4]])),
+                z: floatValue(data: Data([buf[offset+11], buf[offset+10], buf[offset+9], buf[offset+8]]))
+            )
             offset += 12
 
-            let v3 = float3([
-                floatValue(data: Data([buf[offset+3], buf[offset+2], buf[offset+1], buf[offset+0]])),
-                floatValue(data: Data([buf[offset+7], buf[offset+6], buf[offset+5], buf[offset+4]])),
-                floatValue(data: Data([buf[offset+11], buf[offset+10], buf[offset+9], buf[offset+8]]))
-            ])
+            let v3 = Vec3(
+                x: floatValue(data: Data([buf[offset+3], buf[offset+2], buf[offset+1], buf[offset+0]])),
+                y: floatValue(data: Data([buf[offset+7], buf[offset+6], buf[offset+5], buf[offset+4]])),
+                z: floatValue(data: Data([buf[offset+11], buf[offset+10], buf[offset+9], buf[offset+8]]))
+            )
             offset += 12
 
             let scale: Float = 1
