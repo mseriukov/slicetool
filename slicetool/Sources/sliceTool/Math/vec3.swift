@@ -66,55 +66,57 @@ extension Vec3 {
     }
 }
 
-func ==(lhs: Vec3, rhs: Vec3) -> Bool {
-    return (lhs.x == rhs.x) && (lhs.y == rhs.y) && (lhs.z == rhs.z)
-}
+extension Vec3 {
 
-func * (lhs: Vec3, rhs: Float32) -> Vec3 {
-    return Vec3(x: lhs.x * rhs, y: lhs.y * rhs, z: lhs.z * rhs)
-}
+    static func ==(lhs: Vec3, rhs: Vec3) -> Bool {
+        return (lhs.x == rhs.x) && (lhs.y == rhs.y) && (lhs.z == rhs.z)
+    }
 
-func * (lhs: Vec3, rhs: Vec3) -> Vec3 {    
-    return Vec3(x: lhs.x * rhs.x, y: lhs.y * rhs.y, z: lhs.z * rhs.z)
-}
+    static func * (lhs: Vec3, rhs: Float32) -> Vec3 {
+        return Vec3(x: lhs.x * rhs, y: lhs.y * rhs, z: lhs.z * rhs)
+    }
 
-func / (lhs: Vec3, rhs: Float32) -> Vec3 {
-    return Vec3(x: lhs.x / rhs, y: lhs.y / rhs, z: lhs.z / rhs)
-}
+    static func * (lhs: Vec3, rhs: Vec3) -> Vec3 {
+        return Vec3(x: lhs.x * rhs.x, y: lhs.y * rhs.y, z: lhs.z * rhs.z)
+    }
 
-func / (lhs: Vec3, rhs: Vec3) -> Vec3 {
-    return Vec3(x: lhs.x / rhs.x, y: lhs.y / rhs.y, z: lhs.z / rhs.z)
-}
+    static func / (lhs: Vec3, rhs: Float32) -> Vec3 {
+        return Vec3(x: lhs.x / rhs, y: lhs.y / rhs, z: lhs.z / rhs)
+    }
 
-func + (lhs: Vec3, rhs: Vec3) -> Vec3 {
-    return Vec3(x: lhs.x + rhs.x, y: lhs.y + rhs.y, z: lhs.z + rhs.z)
-}
+    static func / (lhs: Vec3, rhs: Vec3) -> Vec3 {
+        return Vec3(x: lhs.x / rhs.x, y: lhs.y / rhs.y, z: lhs.z / rhs.z)
+    }
 
-func - (lhs: Vec3, rhs: Vec3) -> Vec3 {
-    return Vec3(x: lhs.x - rhs.x, y: lhs.y - rhs.y, z: lhs.z - rhs.z)
-}
+    static func + (lhs: Vec3, rhs: Vec3) -> Vec3 {
+        return Vec3(x: lhs.x + rhs.x, y: lhs.y + rhs.y, z: lhs.z + rhs.z)
+    }
 
-func + (lhs: Vec3, rhs: Float32) -> Vec3 {
-    return Vec3(x: lhs.x + rhs, y: lhs.y + rhs, z: lhs.z + rhs)
-}
+    static func - (lhs: Vec3, rhs: Vec3) -> Vec3 {
+        return Vec3(x: lhs.x - rhs.x, y: lhs.y - rhs.y, z: lhs.z - rhs.z)
+    }
 
-func - (lhs: Vec3, rhs: Float32) -> Vec3 {
-    return Vec3(x: lhs.x - rhs, y: lhs.y - rhs, z: lhs.z - rhs)
-}
+    static func + (lhs: Vec3, rhs: Float32) -> Vec3 {
+        return Vec3(x: lhs.x + rhs, y: lhs.y + rhs, z: lhs.z + rhs)
+    }
 
-func += (lhs: inout Vec3, rhs: Vec3) {
-    lhs = lhs + rhs
-}
+    static func - (lhs: Vec3, rhs: Float32) -> Vec3 {
+        return Vec3(x: lhs.x - rhs, y: lhs.y - rhs, z: lhs.z - rhs)
+    }
 
-func -= (lhs: inout Vec3, rhs: Vec3) {
-    lhs = lhs - rhs
-}
+    static func += (lhs: inout Vec3, rhs: Vec3) {
+        lhs = lhs + rhs
+    }
 
-func *= (lhs: inout Vec3, rhs: Vec3) {
-    lhs = lhs * rhs
-}
+    static func -= (lhs: inout Vec3, rhs: Vec3) {
+        lhs = lhs - rhs
+    }
 
-func /= (lhs: inout Vec3, rhs: Vec3) {
-    lhs = lhs / rhs
-}
+    static func *= (lhs: inout Vec3, rhs: Vec3) {
+        lhs = lhs * rhs
+    }
 
+    static func /= (lhs: inout Vec3, rhs: Vec3) {
+        lhs = lhs / rhs
+    }
+}

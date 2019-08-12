@@ -59,55 +59,56 @@ extension Vec2 {
     }
 }
 
-func ==(lhs: Vec2, rhs: Vec2) -> Bool {
-    return (lhs.x == rhs.x) && (lhs.y == rhs.y)
-}
+extension Vec2 {
+    static func ==(lhs: Vec2, rhs: Vec2) -> Bool {
+        return (lhs.x == rhs.x) && (lhs.y == rhs.y)
+    }
 
-func * (lhs: Vec2, rhs: Float32) -> Vec2 {
-    return Vec2(x: lhs.x * rhs, y: lhs.y * rhs)
-}
+    static func * (lhs: Vec2, rhs: Float32) -> Vec2 {
+        return Vec2(x: lhs.x * rhs, y: lhs.y * rhs)
+    }
 
-func * (lhs: Vec2, rhs: Vec2) -> Vec2 {    
-    return Vec2(x: lhs.x * rhs.x, y: lhs.y * rhs.y)
-}
+    static func * (lhs: Vec2, rhs: Vec2) -> Vec2 {
+        return Vec2(x: lhs.x * rhs.x, y: lhs.y * rhs.y)
+    }
 
-func / (lhs: Vec2, rhs: Float32) -> Vec2 {
-    return Vec2(x: lhs.x / rhs, y: lhs.y / rhs)
-}
+    static func / (lhs: Vec2, rhs: Float32) -> Vec2 {
+        return Vec2(x: lhs.x / rhs, y: lhs.y / rhs)
+    }
 
-func / (lhs: Vec2, rhs: Vec2) -> Vec2 {
-    return Vec2(x: lhs.x / rhs.x, y: lhs.y / rhs.y)
-}
+    static func / (lhs: Vec2, rhs: Vec2) -> Vec2 {
+        return Vec2(x: lhs.x / rhs.x, y: lhs.y / rhs.y)
+    }
 
-func + (lhs: Vec2, rhs: Vec2) -> Vec2 {
-    return Vec2(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
-}
+    static func + (lhs: Vec2, rhs: Vec2) -> Vec2 {
+        return Vec2(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
+    }
 
-func - (lhs: Vec2, rhs: Vec2) -> Vec2 {
-    return Vec2(x: lhs.x - rhs.x, y: lhs.y - rhs.y)
-}
+    static func - (lhs: Vec2, rhs: Vec2) -> Vec2 {
+        return Vec2(x: lhs.x - rhs.x, y: lhs.y - rhs.y)
+    }
 
-func + (lhs: Vec2, rhs: Float32) -> Vec2 {
-    return Vec2(x: lhs.x + rhs, y: lhs.y + rhs)
-}
+    static func + (lhs: Vec2, rhs: Float32) -> Vec2 {
+        return Vec2(x: lhs.x + rhs, y: lhs.y + rhs)
+    }
 
-func - (lhs: Vec2, rhs: Float32) -> Vec2 {
-    return Vec2(x: lhs.x - rhs, y: lhs.y - rhs)
-}
+    static func - (lhs: Vec2, rhs: Float32) -> Vec2 {
+        return Vec2(x: lhs.x - rhs, y: lhs.y - rhs)
+    }
 
-func += (lhs: inout Vec2, rhs: Vec2) {
-    lhs = lhs + rhs
-}
+    static func += (lhs: inout Vec2, rhs: Vec2) {
+        lhs = lhs + rhs
+    }
 
-func -= (lhs: inout Vec2, rhs: Vec2) {
-    lhs = lhs - rhs
-}
+    static func -= (lhs: inout Vec2, rhs: Vec2) {
+        lhs = lhs - rhs
+    }
 
-func *= (lhs: inout Vec2, rhs: Vec2) {
-    lhs = lhs * rhs
-}
+    static func *= (lhs: inout Vec2, rhs: Vec2) {
+        lhs = lhs * rhs
+    }
 
-func /= (lhs: inout Vec2, rhs: Vec2) {
-    lhs = lhs / rhs
+    static func /= (lhs: inout Vec2, rhs: Vec2) {
+        lhs = lhs / rhs
+    }
 }
-
