@@ -7,42 +7,28 @@ struct BoundingBox {
 
 class Mesh {
     var boundingBox: BoundingBox = BoundingBox()
-    var verticies: [Vertex] = []
+    var triangles: [Triangle] = []
+
+    func addTriangle(_ t: Triangle) {
+        triangles.append(t)
+        addVertex(t.v1)
+        addVertex(t.v2)
+        addVertex(t.v3)
+    }
+}
+
+private extension Mesh {
 
     func addVertex(_ vertex: Vertex) {
-        verticies.append(vertex)
-        if verticies.count == 1 {
-            boundingBox.bottomLeftRear = vertex.position
-            boundingBox.topRightFront = vertex.position
-        } else {
-            if vertex.position.x < boundingBox.bottomLeftRear.x {
-                boundingBox.bottomLeftRear.x = vertex.position.x
-            }
+        let p = vertex.position
 
-            if vertex.position.y < boundingBox.bottomLeftRear.y {
-                boundingBox.bottomLeftRear.y = vertex.position.y
-            }
+        boundingBox.bottomLeftRear.x = min(boundingBox.bottomLeftRear.x, p.x)
+        boundingBox.bottomLeftRear.y = min(boundingBox.bottomLeftRear.y, p.y)
+        boundingBox.bottomLeftRear.z = min(boundingBox.bottomLeftRear.z, p.z)
 
-            if vertex.position.z < boundingBox.bottomLeftRear.z {
-                boundingBox.bottomLeftRear.z = vertex.position.z
-            }
-
-            if vertex.position.x > boundingBox.topRightFront.x {
-                boundingBox.topRightFront.x = vertex.position.x
-            }
-
-            if vertex.position.y > boundingBox.topRightFront.y {
-                boundingBox.topRightFront.y = vertex.position.y
-            }
-
-            if vertex.position.z > boundingBox.topRightFront.z {
-                boundingBox.topRightFront.z = vertex.position.z
-            }
-        }
-    }
-
-    func addVerticies(_ verticies: [Vertex]) {
-        verticies.forEach(addVertex)
+        boundingBox.topRightFront.x = max(boundingBox.topRightFront.x, p.x)
+        boundingBox.topRightFront.y = max(boundingBox.topRightFront.y, p.y)
+        boundingBox.topRightFront.z = max(boundingBox.topRightFront.z, p.z)
     }
 
 }

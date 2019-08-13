@@ -13,18 +13,17 @@ private extension Slicer {
 
     func slice(mesh: Mesh, z: Float) -> [(Vec2, Vec2)] {
         var result: [(Vec2, Vec2)] = []
-        let verticies = mesh.verticies
+        let triangles = mesh.triangles
 
         let zStart = mesh.boundingBox.bottomLeftRear.z
-
         let zSlice = zStart + z
 
         let plane = Plane(p: Vec3(x: 0, y: 0, z: zSlice), n: Vec3(x: 0, y: 0, z: 1))
 
-        for i in stride(from: 0, to: mesh.verticies.count, by: 3) {
-            let v1 = verticies[i + 0]
-            let v2 = verticies[i + 1]
-            let v3 = verticies[i + 2]
+        for t in triangles {
+            let v1 = t.v1
+            let v2 = t.v2
+            let v3 = t.v3
 
             if v1.position.z > zSlice && v2.position.z > zSlice && v3.position.z > zSlice {
                 continue

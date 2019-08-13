@@ -84,10 +84,7 @@ struct SliceToSVGCommand: Command {
 
         let url = input.path.asURL
         let parser = STLParser()
-        let verticies = parser.parseSTL(url)
-
-        let mesh = Mesh()
-        mesh.addVerticies(verticies)
+        guard let mesh = parser.parseSTL(url) else { return }
 
         let zmin = mesh.boundingBox.bottomLeftRear.z
         let zmax = mesh.boundingBox.topRightFront.z
@@ -103,10 +100,9 @@ struct SliceToSVGCommand: Command {
 
         let increment = arguments.get(sliceIncrement) ?? 1.0
 
-        print(increment)
         for z in stride(from: 0.0, to: height, by: increment) {
             let polygons = slicer.slice(mesh: mesh, z: z)
-
+            
             let gmax = Vec2(x: mesh.boundingBox.topRightFront.x, y: mesh.boundingBox.topRightFront.y)
             let gmin = Vec2(x: mesh.boundingBox.bottomLeftRear.x, y: mesh.boundingBox.bottomLeftRear.y)
 
