@@ -1,6 +1,7 @@
 import Foundation
 import SPMUtility
 import Basic
+import VectorMath
 
 enum MyError: Error {
     case runtimeError(String)
@@ -32,7 +33,7 @@ extension Float32: ArgumentKind {
 
 }
 
-func generateOutput(polygons: [[Vec2]], gmin: Vec2, gmax: Vec2, z: Float32, url: Foundation.URL, filenameFormat: String, generator: OutputGeneratorType) {
+func generateOutput(polygons: [[Vector2]], gmin: Vector2, gmax: Vector2, z: Float32, url: Foundation.URL, filenameFormat: String, generator: OutputGeneratorType) {
     guard let data = generator.generate(polygons: polygons, gmin: gmin, gmax: gmax) else {
         return
     }
@@ -103,8 +104,8 @@ struct SliceToSVGCommand: Command {
         for z in stride(from: 0.0, to: height, by: increment) {
             let polygons = slicer.slice(mesh: mesh, z: z)
             
-            let gmax = Vec2(x: mesh.boundingBox.topRightFront.x, y: mesh.boundingBox.topRightFront.y)
-            let gmin = Vec2(x: mesh.boundingBox.bottomLeftRear.x, y: mesh.boundingBox.bottomLeftRear.y)
+            let gmax = Vector2(mesh.boundingBox.topRightFront.x, mesh.boundingBox.topRightFront.y)
+            let gmin = Vector2(mesh.boundingBox.bottomLeftRear.x, mesh.boundingBox.bottomLeftRear.y)
 
             let types = arguments.get(outputTypes) ?? [.svg]
             for type in types {

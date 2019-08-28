@@ -1,13 +1,14 @@
 import Foundation
+import VectorMath
 
 private final class SVGOutputGenerator: OutputGeneratorType {
-    func generate(polygons: [[Vec2]], gmin: Vec2, gmax: Vec2) -> Data? {
+    func generate(polygons: [[Vector2]], gmin: Vector2, gmax: Vector2) -> Data? {
         guard polygons.count > 0 else { return nil }
         var string = ""
 
-        let newPolygons = polygons.map { polygon -> [Vec2] in
-            return polygon.map { point -> Vec2 in
-                Vec2(x: point.x - gmin.x + 50, y: point.y - gmin.y + 50 )
+        let newPolygons = polygons.map { polygon -> [Vector2] in
+            return polygon.map { point -> Vector2 in
+                Vector2(point.x - gmin.x + 50, point.y - gmin.y + 50 )
             }
         }
 

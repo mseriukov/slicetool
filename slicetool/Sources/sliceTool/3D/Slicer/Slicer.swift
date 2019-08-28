@@ -1,9 +1,10 @@
 import Foundation
+import VectorMath
 
 final class Slicer: SlicerType {
 
-    func slice(mesh: Mesh, z: Float) -> [[Vec2]] {
-        let lines: [(Vec2, Vec2)] = slice(mesh: mesh, z: z)
+    func slice(mesh: Mesh, z: Float) -> [[Vector2]] {
+        let lines: [(Vector2, Vector2)] = slice(mesh: mesh, z: z)
         return linesToPolygons(lines)
     }
 
@@ -11,14 +12,14 @@ final class Slicer: SlicerType {
 
 private extension Slicer {
 
-    func slice(mesh: Mesh, z: Float) -> [(Vec2, Vec2)] {
-        var result: [(Vec2, Vec2)] = []
+    func slice(mesh: Mesh, z: Float) -> [(Vector2, Vector2)] {
+        var result: [(Vector2, Vector2)] = []
         let triangles = mesh.triangles
 
         let zStart = mesh.boundingBox.bottomLeftRear.z
         let zSlice = zStart + z
 
-        let plane = Plane(p: Vec3(x: 0, y: 0, z: zSlice), n: Vec3(x: 0, y: 0, z: 1))
+        let plane = Plane(p: Vector3(0, 0, zSlice), n: Vector3(0, 0, 1))
 
         for t in triangles {
             let v1 = t.v1
@@ -54,11 +55,11 @@ private extension Slicer {
 
             if touch == 2 {
                 if t1 && t2 && !t3 {
-                    result.append((Vec2(x: v1.position.x, y: v1.position.y), Vec2(x: v2.position.x, y: v2.position.y)))
+                    result.append((Vector2(v1.position.x, v1.position.y), Vector2(v2.position.x, v2.position.y)))
                 } else if !t1 && t2 && t3 {
-                    result.append((Vec2(x: v2.position.x, y: v2.position.y), Vec2(x: v3.position.x, y: v3.position.y)))
+                    result.append((Vector2(v2.position.x, v2.position.y), Vector2(v3.position.x, v3.position.y)))
                 } else {
-                    result.append((Vec2(x: v3.position.x, y: v3.position.y), Vec2(x: v1.position.x, y: v1.position.y)))
+                    result.append((Vector2(v3.position.x, v3.position.y), Vector2(v1.position.x, v1.position.y)))
                 }
                 continue
             }
@@ -66,23 +67,23 @@ private extension Slicer {
             if touch == 1 {
                 if t1 && ((v2.position.z > zSlice && v3.position.z < zSlice) || (v2.position.z < zSlice && v3.position.z > zSlice)) {
                     if let intersect = plane.intersectLine(Line(p0: v2.position, p1: v3.position)) {
-                        result.append((Vec2(x: intersect.x, y: intersect.y), Vec2(x: v1.position.x, y: v1.position.y)))
+                        result.append((Vector2(intersect.x, intersect.y), Vector2(v1.position.x, v1.position.y)))
                     }
                 } else if t2 && ((v3.position.z > zSlice && v1.position.z < zSlice) || (v3.position.z < zSlice && v1.position.z > zSlice)) {
                     if let intersect = plane.intersectLine(Line(p0: v3.position, p1: v1.position)) {
-                        result.append((Vec2(x: intersect.x, y: intersect.y), Vec2(x: v2.position.x, y: v2.position.y)))
+                        result.append((Vector2(intersect.x, intersect.y), Vector2(v2.position.x, v2.position.y)))
                     }
                 } else if t3 && ((v1.position.z > zSlice && v2.position.z < zSlice) || (v1.position.z < zSlice && v2.position.z > zSlice)) {
                     if let intersect = plane.intersectLine(Line(p0: v1.position, p1: v2.position)) {
-                        result.append((Vec2(x: intersect.x, y: intersect.y), Vec2(x: v3.position.x, y: v3.position.y)))
+                        result.append((Vector2(intersect.x, intersect.y), Vector2(v3.position.x, v3.position.y)))
                     }
                 }
                 continue
             }
 
             if touch == 0 {
-                var top: [Vec3] = []
-                var bot: [Vec3] = []
+                var top: [Vector3] = []
+                var bot: [Vector3] = []
 
                 v1.position.z > zSlice ? top.append(v1.position) : bot.append(v1.position)
                 v2.position.z > zSlice ? top.append(v2.position) : bot.append(v2.position)
@@ -91,12 +92,12 @@ private extension Slicer {
                 if top.count == 1 {
                     if let intersect1 = plane.intersectLine(Line(p0: top[0], p1: bot[0])),
                         let intersect2 = plane.intersectLine(Line(p0: top[0], p1: bot[1])) {
-                        result.append((Vec2(x: intersect1.x, y: intersect1.y), Vec2(x: intersect2.x, y: intersect2.y)))
+                        result.append((Vector2(intersect1.x, intersect1.y), Vector2(intersect2.x, intersect2.y)))
                     }
                 } else {
                     if let intersect1 = plane.intersectLine(Line(p0: top[0], p1: bot[0])),
                         let intersect2 = plane.intersectLine(Line(p0: top[1], p1: bot[0])){
-                        result.append((Vec2(x: intersect1.x, y: intersect1.y), Vec2(x: intersect2.x, y: intersect2.y)))
+                        result.append((Vector2(intersect1.x, intersect1.y), Vector2(intersect2.x, intersect2.y)))
                     }
                 }
 
@@ -106,18 +107,18 @@ private extension Slicer {
         return result
     }
 
-    func linesToPolygons(_ lines: [(Vec2, Vec2)]) -> [[Vec2]] {
+    func linesToPolygons(_ lines: [(Vector2, Vector2)]) -> [[Vector2]] {
         guard lines.count > 3 else { return [] }
-        var polygons: [[Vec2]] = []
+        var polygons: [[Vector2]] = []
 
-        var polygon: [Vec2] = []
+        var polygon: [Vector2] = []
 
         var lines = lines
 
-        func getNextPoint(_ lines: inout [(Vec2, Vec2)], firstPoint: Vec2, lastPoint: inout Vec2, polygon: inout [Vec2]) -> Bool {
+        func getNextPoint(_ lines: inout [(Vector2, Vector2)], firstPoint: Vector2, lastPoint: inout Vector2, polygon: inout [Vector2]) -> Bool {
             var found = false
 
-            var newLines: [(Vec2, Vec2)?] = lines
+            var newLines: [(Vector2, Vector2)?] = lines
 
             for i in 0..<lines.count {
                 let line = lines[i]
@@ -151,8 +152,8 @@ private extension Slicer {
         }
 
         while lines.count > 0 {
-            let firstPoint: Vec2 = lines[0].0
-            var lastPoint: Vec2 = lines[0].1
+            let firstPoint: Vector2 = lines[0].0
+            var lastPoint: Vector2 = lines[0].1
             lines.removeFirst()
             polygon.append(firstPoint)
             polygon.append(lastPoint)

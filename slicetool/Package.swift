@@ -6,11 +6,12 @@ let package = Package(
     name: "slicetool",
     dependencies: [
         .package(url: "https://github.com/apple/swift-package-manager.git", from: "0.3.0"),
+        .package(url: "https://github.com/nicklockwood/VectorMath.git", from: "0.4.0"),
     ],
     targets: [
         .target(
             name: "slicetool",
-            dependencies: ["SPMUtility"],
+            dependencies: ["SPMUtility", "VectorMath"],
             path: "Sources")
     ]
 )

@@ -1,4 +1,5 @@
+import VectorMath
 
 struct Vertex {
-    var position: Vec3
+    var position: Vector3
 }

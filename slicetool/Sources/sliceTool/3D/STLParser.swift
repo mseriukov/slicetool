@@ -1,4 +1,5 @@
 import Foundation
+import VectorMath
 
 class STLParser {
 
@@ -36,31 +37,31 @@ class STLParser {
             }
 
             var offset: Int = 0
-            let n = Vec3(
-                x: floatValue(data: Data([buf[offset+3], buf[offset+2], buf[offset+1], buf[offset+0]])),
-                y: floatValue(data: Data([buf[offset+7], buf[offset+6], buf[offset+5], buf[offset+4]])),
-                z: floatValue(data: Data([buf[offset+11], buf[offset+10], buf[offset+9], buf[offset+8]]))
+            let n = Vector3(
+                floatValue(data: Data([buf[offset+3], buf[offset+2], buf[offset+1], buf[offset+0]])),
+                floatValue(data: Data([buf[offset+7], buf[offset+6], buf[offset+5], buf[offset+4]])),
+                floatValue(data: Data([buf[offset+11], buf[offset+10], buf[offset+9], buf[offset+8]]))
             )
             offset += 12
 
-            let v1 = Vertex(position: Vec3(
-                x: floatValue(data: Data([buf[offset+3], buf[offset+2], buf[offset+1], buf[offset+0]])),
-                y: floatValue(data: Data([buf[offset+7], buf[offset+6], buf[offset+5], buf[offset+4]])),
-                z: floatValue(data: Data([buf[offset+11], buf[offset+10], buf[offset+9], buf[offset+8]]))
+            let v1 = Vertex(position: Vector3(
+                floatValue(data: Data([buf[offset+3], buf[offset+2], buf[offset+1], buf[offset+0]])),
+                floatValue(data: Data([buf[offset+7], buf[offset+6], buf[offset+5], buf[offset+4]])),
+                floatValue(data: Data([buf[offset+11], buf[offset+10], buf[offset+9], buf[offset+8]]))
             ))
             offset += 12
 
-            let v2 = Vertex(position: Vec3(
-                x: floatValue(data: Data([buf[offset+3], buf[offset+2], buf[offset+1], buf[offset+0]])),
-                y: floatValue(data: Data([buf[offset+7], buf[offset+6], buf[offset+5], buf[offset+4]])),
-                z: floatValue(data: Data([buf[offset+11], buf[offset+10], buf[offset+9], buf[offset+8]]))
+            let v2 = Vertex(position: Vector3(
+                floatValue(data: Data([buf[offset+3], buf[offset+2], buf[offset+1], buf[offset+0]])),
+                floatValue(data: Data([buf[offset+7], buf[offset+6], buf[offset+5], buf[offset+4]])),
+                floatValue(data: Data([buf[offset+11], buf[offset+10], buf[offset+9], buf[offset+8]]))
             ))
             offset += 12
 
-            let v3 = Vertex(position: Vec3(
-                x: floatValue(data: Data([buf[offset+3], buf[offset+2], buf[offset+1], buf[offset+0]])),
-                y: floatValue(data: Data([buf[offset+7], buf[offset+6], buf[offset+5], buf[offset+4]])),
-                z: floatValue(data: Data([buf[offset+11], buf[offset+10], buf[offset+9], buf[offset+8]]))
+            let v3 = Vertex(position: Vector3(
+                floatValue(data: Data([buf[offset+3], buf[offset+2], buf[offset+1], buf[offset+0]])),
+                floatValue(data: Data([buf[offset+7], buf[offset+6], buf[offset+5], buf[offset+4]])),
+                floatValue(data: Data([buf[offset+11], buf[offset+10], buf[offset+9], buf[offset+8]]))
             ))
             offset += 12
 

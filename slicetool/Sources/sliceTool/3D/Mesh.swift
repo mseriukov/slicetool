@@ -1,8 +1,9 @@
 import Foundation
+import VectorMath
 
 struct BoundingBox {
-    var bottomLeftRear: Vec3 = Vec3(value: 0)
-    var topRightFront: Vec3 = Vec3(value: 0)
+    var bottomLeftRear: Vector3 = Vector3.zero
+    var topRightFront: Vector3 = Vector3.zero
 }
 
 class Mesh {

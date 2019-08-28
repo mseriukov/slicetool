@@ -1,7 +1,8 @@
 import Foundation
+import VectorMath
 
 protocol OutputGeneratorType {
-    func generate(polygons: [[Vec2]], gmin: Vec2, gmax: Vec2) -> Data?
+    func generate(polygons: [[Vector2]], gmin: Vector2, gmax: Vector2) -> Data?
 }
 
 enum OutputGenerator { }
