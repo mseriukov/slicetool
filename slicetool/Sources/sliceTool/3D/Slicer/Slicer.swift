@@ -107,6 +107,7 @@ private extension Slicer {
         return result
     }
 
+    // TODO: fix layer 1000 for sphere
     func linesToPolygons(_ lines: [(Vector2, Vector2)]) -> [[Vector2]] {
         guard lines.count > 3 else { return [] }
         var polygons: [[Vector2]] = []
