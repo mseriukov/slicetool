@@ -29,6 +29,7 @@ class STLParser {
 
         let result: Mesh = Mesh()
         var buf: [UInt8] = [UInt8](repeating: 0, count: 12*4+2)
+        let scale: Float = 100
         while true {
             let len = stream.read(&buf, maxLength: buf.count)
 
@@ -45,23 +46,23 @@ class STLParser {
             offset += 12
 
             let v1 = Vertex(position: Vector3(
-                floatValue(data: Data([buf[offset+3], buf[offset+2], buf[offset+1], buf[offset+0]])),
-                floatValue(data: Data([buf[offset+7], buf[offset+6], buf[offset+5], buf[offset+4]])),
-                floatValue(data: Data([buf[offset+11], buf[offset+10], buf[offset+9], buf[offset+8]]))
+                floatValue(data: Data([buf[offset+3], buf[offset+2], buf[offset+1], buf[offset+0]])) * scale,
+                floatValue(data: Data([buf[offset+7], buf[offset+6], buf[offset+5], buf[offset+4]])) * scale,
+                floatValue(data: Data([buf[offset+11], buf[offset+10], buf[offset+9], buf[offset+8]])) * scale
             ))
             offset += 12
 
             let v2 = Vertex(position: Vector3(
-                floatValue(data: Data([buf[offset+3], buf[offset+2], buf[offset+1], buf[offset+0]])),
-                floatValue(data: Data([buf[offset+7], buf[offset+6], buf[offset+5], buf[offset+4]])),
-                floatValue(data: Data([buf[offset+11], buf[offset+10], buf[offset+9], buf[offset+8]]))
+                floatValue(data: Data([buf[offset+3], buf[offset+2], buf[offset+1], buf[offset+0]])) * scale,
+                floatValue(data: Data([buf[offset+7], buf[offset+6], buf[offset+5], buf[offset+4]])) * scale,
+                floatValue(data: Data([buf[offset+11], buf[offset+10], buf[offset+9], buf[offset+8]])) * scale
             ))
             offset += 12
 
             let v3 = Vertex(position: Vector3(
-                floatValue(data: Data([buf[offset+3], buf[offset+2], buf[offset+1], buf[offset+0]])),
-                floatValue(data: Data([buf[offset+7], buf[offset+6], buf[offset+5], buf[offset+4]])),
-                floatValue(data: Data([buf[offset+11], buf[offset+10], buf[offset+9], buf[offset+8]]))
+                floatValue(data: Data([buf[offset+3], buf[offset+2], buf[offset+1], buf[offset+0]])) * scale,
+                floatValue(data: Data([buf[offset+7], buf[offset+6], buf[offset+5], buf[offset+4]])) * scale,
+                floatValue(data: Data([buf[offset+11], buf[offset+10], buf[offset+9], buf[offset+8]])) * scale
             ))
             offset += 12
 

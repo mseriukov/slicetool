@@ -1,17 +1,21 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.8
 
 import PackageDescription
 
 let package = Package(
     name: "slicetool",
     dependencies: [
-        .package(url: "https://github.com/apple/swift-package-manager.git", from: "0.3.0"),
-        .package(url: "https://github.com/nicklockwood/VectorMath.git", from: "0.4.0"),
+        .package(url: "https://github.com/apple/swift-argument-parser.git", .upToNextMajor(from: "1.0.0")),
+        .package(url: "https://github.com/nicklockwood/VectorMath.git", from: "0.4.1"),
     ],
     targets: [
-        .target(
+        .executableTarget(
             name: "slicetool",
-            dependencies: ["SPMUtility", "VectorMath"],
-            path: "Sources")
+            dependencies: [
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                .product(name: "VectorMath", package: "VectorMath"),
+            ],
+            path: "Sources"
+        )
     ]
 )
