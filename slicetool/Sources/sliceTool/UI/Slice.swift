@@ -71,6 +71,12 @@ struct Slice: ParsableCommand {
     )
     var sliceIncrement: Float32 = 1.0
 
+    @Option(
+        name: .customShort("s"),
+        help: "Slice scale value. [default: 1.0]"
+    )
+    var sliceScale: Float32 = 1.0
+
     @Option(help: "Only count lines with this prefix.")
     var prefix: String? = nil
 
@@ -86,12 +92,13 @@ extension Slice {
             return
         }
         let parser = STLParser()
-        guard let mesh = parser.parseSTL(inputFile) else { return }
+        guard let mesh = parser.parseSTL(inputFile, scale: sliceScale) else { return }
 
         let zmin = mesh.boundingBox.bottomLeftRear.z
         let zmax = mesh.boundingBox.topRightFront.z
 
         let height = zmax - zmin
+        print("Height: \(height)")
 
         let toURL = outputFile ?? inputFile.deletingLastPathComponent()
 

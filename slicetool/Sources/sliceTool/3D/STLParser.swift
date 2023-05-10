@@ -7,7 +7,7 @@ class STLParser {
         return Float32(bitPattern: data.withUnsafeBytes { $0.load(as: UInt32.self) }.bigEndian)
     }
 
-    func parseSTL(_ url: URL) -> Mesh? {
+    func parseSTL(_ url: URL, scale: Float) -> Mesh? {
         guard let stream: InputStream = InputStream(fileAtPath: url.path) else { return nil }
         stream.open()
         defer {
@@ -29,7 +29,6 @@ class STLParser {
 
         let result: Mesh = Mesh()
         var buf: [UInt8] = [UInt8](repeating: 0, count: 12*4+2)
-        let scale: Float = 100
         while true {
             let len = stream.read(&buf, maxLength: buf.count)
 

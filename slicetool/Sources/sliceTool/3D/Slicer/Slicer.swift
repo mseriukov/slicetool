@@ -35,9 +35,9 @@ private extension Slicer {
 
             var touch: Int = 0
 
-            let t1 = Float.equal(v1.position.z, zSlice, precise: 10)
-            let t2 = Float.equal(v2.position.z, zSlice, precise: 10)
-            let t3 = Float.equal(v3.position.z, zSlice, precise: 10)
+            let t1 = v1.position.z.isAlmostEqual(to: zSlice)
+            let t2 = v2.position.z.isAlmostEqual(to: zSlice)
+            let t3 = v3.position.z.isAlmostEqual(to: zSlice)
 
             if t1  {
                 touch += 1
@@ -115,7 +115,12 @@ private extension Slicer {
 
         var lines = lines
 
-        func getNextPoint(_ lines: inout [(Vector2, Vector2)], firstPoint: Vector2, lastPoint: inout Vector2, polygon: inout [Vector2]) -> Bool {
+        func getNextPoint(
+            _ lines: inout [(Vector2, Vector2)],
+            firstPoint: Vector2,
+            lastPoint: inout Vector2,
+            polygon: inout [Vector2]
+        ) -> Bool {
             var found = false
 
             var newLines: [(Vector2, Vector2)?] = lines
