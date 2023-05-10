@@ -13,7 +13,7 @@ struct Plane {
         return abs(n.dot(p - self.p))
     }
 
-    func intersectLine(_ line: Line) -> Vector3? {
+    func intersectLine(_ line: Line3) -> Vector3? {
         let u = line.p1 - line.p0
         let dt = n.dot(u)
         if dt.isAlmostZero() {
@@ -25,7 +25,16 @@ struct Plane {
     }
 }
 
-struct Line {
+struct Line3 {
     var p0: Vector3
     var p1: Vector3
+}
+
+struct Line2: Equatable {
+    var p0: Vector2
+    var p1: Vector2
+
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        (lhs.p0 == rhs.p0 && lhs.p1 == rhs.p1) || (lhs.p0 == rhs.p1 && lhs.p1 == rhs.p0)
+    }
 }

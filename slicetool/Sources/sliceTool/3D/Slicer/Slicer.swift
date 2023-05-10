@@ -4,16 +4,15 @@ import VectorMath
 final class Slicer: SlicerType {
 
     func slice(mesh: Mesh, z: Float) -> [[Vector2]] {
-        let lines: [(Vector2, Vector2)] = slice(mesh: mesh, z: z)
-        return linesToPolygons(lines)
+        linesToPolygons(slice(mesh: mesh, z: z))
     }
 
 }
 
 private extension Slicer {
 
-    func slice(mesh: Mesh, z: Float) -> [(Vector2, Vector2)] {
-        var result: [(Vector2, Vector2)] = []
+    func slice(mesh: Mesh, z: Float) -> [Line2] {
+        var result: [Line2] = []
         let triangles = mesh.triangles
 
         let zStart = mesh.boundingBox.bottomLeftRear.z
@@ -55,27 +54,27 @@ private extension Slicer {
 
             if touch == 2 {
                 if t1 && t2 && !t3 {
-                    result.append((Vector2(v1.position.x, v1.position.y), Vector2(v2.position.x, v2.position.y)))
+                    result.append(Line2(p0: Vector2(v1.position.x, v1.position.y), p1: Vector2(v2.position.x, v2.position.y)))
                 } else if !t1 && t2 && t3 {
-                    result.append((Vector2(v2.position.x, v2.position.y), Vector2(v3.position.x, v3.position.y)))
+                    result.append(Line2(p0: Vector2(v2.position.x, v2.position.y), p1: Vector2(v3.position.x, v3.position.y)))
                 } else {
-                    result.append((Vector2(v3.position.x, v3.position.y), Vector2(v1.position.x, v1.position.y)))
+                    result.append(Line2(p0: Vector2(v3.position.x, v3.position.y), p1: Vector2(v1.position.x, v1.position.y)))
                 }
                 continue
             }
 
             if touch == 1 {
                 if t1 && ((v2.position.z > zSlice && v3.position.z < zSlice) || (v2.position.z < zSlice && v3.position.z > zSlice)) {
-                    if let intersect = plane.intersectLine(Line(p0: v2.position, p1: v3.position)) {
-                        result.append((Vector2(intersect.x, intersect.y), Vector2(v1.position.x, v1.position.y)))
+                    if let intersect = plane.intersectLine(Line3(p0: v2.position, p1: v3.position)) {
+                        result.append(Line2(p0: Vector2(intersect.x, intersect.y), p1: Vector2(v1.position.x, v1.position.y)))
                     }
                 } else if t2 && ((v3.position.z > zSlice && v1.position.z < zSlice) || (v3.position.z < zSlice && v1.position.z > zSlice)) {
-                    if let intersect = plane.intersectLine(Line(p0: v3.position, p1: v1.position)) {
-                        result.append((Vector2(intersect.x, intersect.y), Vector2(v2.position.x, v2.position.y)))
+                    if let intersect = plane.intersectLine(Line3(p0: v3.position, p1: v1.position)) {
+                        result.append(Line2(p0: Vector2(intersect.x, intersect.y), p1: Vector2(v2.position.x, v2.position.y)))
                     }
                 } else if t3 && ((v1.position.z > zSlice && v2.position.z < zSlice) || (v1.position.z < zSlice && v2.position.z > zSlice)) {
-                    if let intersect = plane.intersectLine(Line(p0: v1.position, p1: v2.position)) {
-                        result.append((Vector2(intersect.x, intersect.y), Vector2(v3.position.x, v3.position.y)))
+                    if let intersect = plane.intersectLine(Line3(p0: v1.position, p1: v2.position)) {
+                        result.append(Line2(p0: Vector2(intersect.x, intersect.y), p1: Vector2(v3.position.x, v3.position.y)))
                     }
                 }
                 continue
@@ -90,14 +89,14 @@ private extension Slicer {
                 v3.position.z > zSlice ? top.append(v3.position) : bot.append(v3.position)
 
                 if top.count == 1 {
-                    if let intersect1 = plane.intersectLine(Line(p0: top[0], p1: bot[0])),
-                        let intersect2 = plane.intersectLine(Line(p0: top[0], p1: bot[1])) {
-                        result.append((Vector2(intersect1.x, intersect1.y), Vector2(intersect2.x, intersect2.y)))
+                    if let intersect1 = plane.intersectLine(Line3(p0: top[0], p1: bot[0])),
+                        let intersect2 = plane.intersectLine(Line3(p0: top[0], p1: bot[1])) {
+                        result.append(Line2(p0: Vector2(intersect1.x, intersect1.y), p1: Vector2(intersect2.x, intersect2.y)))
                     }
                 } else {
-                    if let intersect1 = plane.intersectLine(Line(p0: top[0], p1: bot[0])),
-                        let intersect2 = plane.intersectLine(Line(p0: top[1], p1: bot[0])){
-                        result.append((Vector2(intersect1.x, intersect1.y), Vector2(intersect2.x, intersect2.y)))
+                    if let intersect1 = plane.intersectLine(Line3(p0: top[0], p1: bot[0])),
+                        let intersect2 = plane.intersectLine(Line3(p0: top[1], p1: bot[0])){
+                        result.append(Line2(p0: Vector2(intersect1.x, intersect1.y), p1: Vector2(intersect2.x, intersect2.y)))
                     }
                 }
 
@@ -107,30 +106,29 @@ private extension Slicer {
         return result
     }
 
-    // TODO: fix layer 1000 for sphere
-    func linesToPolygons(_ lines: [(Vector2, Vector2)]) -> [[Vector2]] {
+    func linesToPolygons(_ lines: [Line2]) -> [[Vector2]] {
         guard lines.count > 3 else { return [] }
         var polygons: [[Vector2]] = []
 
         var polygon: [Vector2] = []
 
-        var lines = lines
+        var lines = lines.removeDuplicates()
 
         func getNextPoint(
-            _ lines: inout [(Vector2, Vector2)],
+            _ lines: inout [Line2],
             firstPoint: Vector2,
             lastPoint: inout Vector2,
             polygon: inout [Vector2]
         ) -> Bool {
             var found = false
 
-            var newLines: [(Vector2, Vector2)?] = lines
+            var newLines: [Line2?] = lines
 
             for i in 0..<lines.count {
                 let line = lines[i]
-                if isSamePoint(lastPoint, line.0) {
+                if isSamePoint(lastPoint, line.p0) {
                     newLines[i] = nil
-                    let otherPoint = line.1
+                    let otherPoint = line.p1
                     if isSamePoint(firstPoint, otherPoint) {
                         polygon.append(otherPoint) // For polyline
                         break
@@ -139,9 +137,9 @@ private extension Slicer {
                     lastPoint = otherPoint
                     found = true
 
-                } else if isSamePoint(lastPoint, line.1) {
+                } else if isSamePoint(lastPoint, line.p1) {
                     newLines[i] = nil
-                    let otherPoint = line.0
+                    let otherPoint = line.p0
                     if isSamePoint(firstPoint, otherPoint) {
                         polygon.append(otherPoint) // For polyline
                         break
@@ -158,8 +156,8 @@ private extension Slicer {
         }
 
         while lines.count > 0 {
-            let firstPoint: Vector2 = lines[0].0
-            var lastPoint: Vector2 = lines[0].1
+            let firstPoint: Vector2 = lines[0].p0
+            var lastPoint: Vector2 = lines[0].p1
             lines.removeFirst()
             polygon.append(firstPoint)
             polygon.append(lastPoint)
