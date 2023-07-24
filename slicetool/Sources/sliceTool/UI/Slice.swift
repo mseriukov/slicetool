@@ -110,7 +110,14 @@ extension Slice {
         let increment = sliceIncrement
 
         for z in stride(from: 0.0, to: height, by: increment) {
-            let polygons = slicer.slice(mesh: mesh, z: z)
+            let polylines = slicer.slice(mesh: mesh, z: z)
+
+            let lens = polylines.map { Int($0.calculateLength()) }
+                .sorted(by: >)
+                .map { "\($0)" }
+                .joined(separator: ", ")
+
+            print("z: \(z) \(lens)")
 
             let gmax = Vector2(mesh.boundingBox.topRightFront.x, mesh.boundingBox.topRightFront.y)
             let gmin = Vector2(mesh.boundingBox.bottomLeftRear.x, mesh.boundingBox.bottomLeftRear.y)
@@ -119,16 +126,16 @@ extension Slice {
             for type in types {
                 switch type {
                 case .svg:
-                    generateOutput(polygons: polygons, gmin: gmin, gmax: gmax, z: z, url: sliceURL, filenameFormat: "slice_%0.2f.svg", generator: OutputGenerator.svg)
+                    generateOutput(polylines: polylines, gmin: gmin, gmax: gmax, z: z, url: sliceURL, filenameFormat: "slice_%0.2f.svg", generator: OutputGenerator.svg)
                 case .gcode:
-                    generateOutput(polygons: polygons, gmin: gmin, gmax: gmax, z: z, url: sliceURL, filenameFormat: "slice_%0.2f.gcode", generator: OutputGenerator.gcode)
+                    generateOutput(polylines: polylines, gmin: gmin, gmax: gmax, z: z, url: sliceURL, filenameFormat: "slice_%0.2f.gcode", generator: OutputGenerator.gcode)
                 }
             }
         }
     }
 
-    func generateOutput(polygons: [[Vector2]], gmin: Vector2, gmax: Vector2, z: Float32, url: Foundation.URL, filenameFormat: String, generator: OutputGeneratorType) {
-        guard let data = generator.generate(polygons: polygons, gmin: gmin, gmax: gmax) else {
+    func generateOutput(polylines: [Polyline2], gmin: Vector2, gmax: Vector2, z: Float32, url: Foundation.URL, filenameFormat: String, generator: OutputGeneratorType) {
+        guard let data = generator.generate(polylines: polylines, gmin: gmin, gmax: gmax) else {
             return
         }
         let filename = String(format: filenameFormat, z)

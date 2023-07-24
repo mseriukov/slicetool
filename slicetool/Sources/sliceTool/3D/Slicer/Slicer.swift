@@ -3,8 +3,8 @@ import VectorMath
 
 final class Slicer: SlicerType {
 
-    func slice(mesh: Mesh, z: Float) -> [[Vector2]] {
-        linesToPolygons(slice(mesh: mesh, z: z))
+    func slice(mesh: Mesh, z: Float) -> [Polyline2] {
+        linesToPolylines(slice(mesh: mesh, z: z))
     }
 
 }
@@ -106,11 +106,11 @@ private extension Slicer {
         return result
     }
 
-    func linesToPolygons(_ lines: [Line2]) -> [[Vector2]] {
+    func linesToPolylines(_ lines: [Line2]) -> [Polyline2] {
         guard lines.count > 3 else { return [] }
-        var polygons: [[Vector2]] = []
+        var polylines: [Polyline2] = []
 
-        var polygon: [Vector2] = []
+        var polyline = Polyline2()
 
         var lines = lines.removeDuplicates()
 
@@ -118,7 +118,7 @@ private extension Slicer {
             _ lines: inout [Line2],
             firstPoint: Vector2,
             lastPoint: inout Vector2,
-            polygon: inout [Vector2]
+            polyline: inout Polyline2
         ) -> Bool {
             var found = false
 
@@ -130,10 +130,10 @@ private extension Slicer {
                     newLines[i] = nil
                     let otherPoint = line.p1
                     if isSamePoint(firstPoint, otherPoint) {
-                        polygon.append(otherPoint) // For polyline
+                        polyline.append(otherPoint) // For polyline
                         break
                     }
-                    polygon.append(otherPoint)
+                    polyline.append(otherPoint)
                     lastPoint = otherPoint
                     found = true
 
@@ -141,10 +141,10 @@ private extension Slicer {
                     newLines[i] = nil
                     let otherPoint = line.p0
                     if isSamePoint(firstPoint, otherPoint) {
-                        polygon.append(otherPoint) // For polyline
+                        polyline.append(otherPoint) // For polyline
                         break
                     }
-                    polygon.append(otherPoint)
+                    polyline.append(otherPoint)
                     lastPoint = otherPoint
                     found = true
 
@@ -159,16 +159,16 @@ private extension Slicer {
             let firstPoint: Vector2 = lines[0].p0
             var lastPoint: Vector2 = lines[0].p1
             lines.removeFirst()
-            polygon.append(firstPoint)
-            polygon.append(lastPoint)
+            polyline.append(firstPoint)
+            polyline.append(lastPoint)
 
-            while getNextPoint(&lines, firstPoint: firstPoint, lastPoint: &lastPoint, polygon: &polygon) { }
+            while getNextPoint(&lines, firstPoint: firstPoint, lastPoint: &lastPoint, polyline: &polyline) { }
 
-            polygons.append(polygon)
-            polygon = []
+            polylines.append(polyline)
+            polyline = Polyline2()
         }
 
-        return polygons
+        return polylines
     }
 
 }

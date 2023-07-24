@@ -38,3 +38,55 @@ struct Line2: Equatable {
         (lhs.p0 == rhs.p0 && lhs.p1 == rhs.p1) || (lhs.p0 == rhs.p1 && lhs.p1 == rhs.p0)
     }
 }
+
+struct Polyline2 {
+    private(set) var points: [Vector2] = []
+
+    mutating func append(_ point: Vector2) {
+        points.append(point)
+    }
+
+    func calculateLength() -> Float {
+        var last: Vector2?
+        var length: Float = 0.0
+        for point in points {
+            guard let theLast = last else {
+                last = point
+                continue
+            }
+
+            length += (theLast - point).length
+            last = point
+        }
+        return length
+    }
+}
+
+extension Polyline2: Sequence {
+    typealias Iterator = Array<Vector2>.Iterator
+
+    func makeIterator() -> Iterator {
+        points.makeIterator()
+    }
+}
+
+extension Polyline2: Collection {
+    typealias Index = Array<Vector2>.Index
+    
+    var startIndex: Index {
+        points.startIndex
+    }
+
+    var endIndex: Index {
+        points.endIndex
+    }
+
+    subscript (position: Index) -> Iterator.Element {
+        precondition(indices.contains(position), "out of bounds")
+        return points[position]
+    }
+
+    func index(after i: Index) -> Index {
+        points.index(after: i)
+    }
+}

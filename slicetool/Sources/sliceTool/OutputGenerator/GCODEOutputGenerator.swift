@@ -2,12 +2,12 @@ import Foundation
 import VectorMath
 
 private final class GCODEOutputGenerator: OutputGeneratorType {
-    func generate(polygons: [[Vector2]], gmin: Vector2, gmax: Vector2) -> Data? {
-        guard polygons.count > 0 else { return nil }
+    func generate(polylines: [Polyline2], gmin: Vector2, gmax: Vector2) -> Data? {
+        guard polylines.count > 0 else { return nil }
         var string = ""
 
-        let newPolygons = polygons.map { polygon -> [Vector2] in
-            return polygon.map { point -> Vector2 in
+        let newPolygons = polylines.map { polyline -> [Vector2] in
+            return polyline.map { point -> Vector2 in
                 Vector2(point.x - gmin.x + 50, point.y - gmin.y + 50 )
             }
         }
