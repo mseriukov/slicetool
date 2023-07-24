@@ -7,7 +7,7 @@ Implementation is made as simple as possible and thus is very slow but is very e
 ## How to use:
 
 ```
-git clone https://github.com/mseriukov/sliceTool.git
+git clone https://github.com/mseriukov/slicetool.git
 cd sliceTool
 swift run slicetool -i 5 -s 3 -o ~/Desktop bunny.stl
 ``` 
