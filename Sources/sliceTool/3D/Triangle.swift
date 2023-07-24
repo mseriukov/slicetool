@@ -12,5 +12,4 @@ struct Triangle {
         self.v3 = v3
         self.n = n
     }
-
 }

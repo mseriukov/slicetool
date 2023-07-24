@@ -2,7 +2,6 @@ import Foundation
 import VectorMath
 
 class STLParser {
-
     func floatValue(data: Data) -> Float32 {
         return Float32(bitPattern: data.withUnsafeBytes { $0.load(as: UInt32.self) }.bigEndian)
     }

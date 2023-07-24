@@ -2,34 +2,6 @@ import ArgumentParser
 import Foundation
 import VectorMath
 
-//private let input: PositionalArgument<PathArgument>
-//private let output: OptionArgument<PathArgument>
-//private let outputTypes: OptionArgument<[OutputType]>
-//private let sliceIncrement: OptionArgument<Float32>
-//
-//init(parser: ArgumentParser) {
-//    let subparser = parser.add(subparser: command, overview: overview)
-//    output = subparser.add(
-//        option: "--output",
-//        shortName: "-o",
-//        kind: PathArgument.self,
-//        usage: "output directory. [default: Relative to STL]"
-//    )
-//
-//    outputTypes = subparser.add(
-//        option: "--output-type",
-//        shortName: "-t",
-//        kind: [OutputType].self,
-//        strategy: .oneByOne,
-//        usage: "Output type. (svg, gcode) [default: svg]"
-//    )
-//
-//    sliceIncrement = subparser.add(
-//        option: "--slice-increment",
-//        shortName: "-i",
-//        kind: Float32.self,
-//        usage: "Slice increment value. (X mm) [default: 1.0]"
-//    )
 enum MyError: Error {
     case runtimeError(String)
 }
@@ -40,7 +12,6 @@ enum OutputType: String, Codable {
 }
 
 extension OutputType: ExpressibleByArgument { }
-
 
 @main
 struct Slice: ParsableCommand {
@@ -85,10 +56,9 @@ struct Slice: ParsableCommand {
 }
 
 extension Slice {
-
     mutating func run() throws {
         guard let inputFile else {
-            print("123")
+            // TODO: Handle error.
             return
         }
         let parser = STLParser()
@@ -143,4 +113,3 @@ extension Slice {
         try? data.write(to: destinationURL, options: [.atomicWrite])
     }
 }
-
