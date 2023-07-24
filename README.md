@@ -9,5 +9,5 @@ Implementation is made as simple as possible and thus is very slow but is very e
 ```
 git clone https://github.com/mseriukov/slicetool.git
 cd slicetool
-swift run slicetool -i 5 -s 3 -o ~/Desktop bunny.stl
+swift run -c release slicetool -i 5 -s 3 -o ~/Desktop bunny.stl
 ``` 
