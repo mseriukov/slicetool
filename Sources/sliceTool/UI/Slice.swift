@@ -79,6 +79,8 @@ extension Slice {
 
         let increment = sliceIncrement
 
+        let progressBar = ProgressBar()
+        progressBar.count = Int(height)
         for z in stride(from: 0.0, to: height, by: increment) {
             let polylines = slicer.slice(mesh: mesh, z: z)
 
@@ -87,8 +89,8 @@ extension Slice {
                 .map { "\($0)" }
                 .joined(separator: ", ")
 
-            print("z: \(z) \(lens)")
 
+            progressBar.filled = Int(z)
             let gmax = Vector2(mesh.boundingBox.topRightFront.x, mesh.boundingBox.topRightFront.y)
             let gmin = Vector2(mesh.boundingBox.bottomLeftRear.x, mesh.boundingBox.bottomLeftRear.y)
 
