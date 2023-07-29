@@ -58,7 +58,7 @@ struct Slice: ParsableCommand {
 extension Slice {
     mutating func run() throws {
         guard let inputFile else {
-            // TODO: Handle error.
+            print("No input file specified.")
             return
         }
         let parser = STLParser()
@@ -83,12 +83,6 @@ extension Slice {
         progressBar.count = Int(height)
         for z in stride(from: 0.0, to: height, by: increment) {
             let polylines = slicer.slice(mesh: mesh, z: z)
-
-            let lens = polylines.map { Int($0.calculateLength()) }
-                .sorted(by: >)
-                .map { "\($0)" }
-                .joined(separator: ", ")
-
 
             progressBar.filled = Int(z)
             let gmax = Vector2(mesh.boundingBox.topRightFront.x, mesh.boundingBox.topRightFront.y)
